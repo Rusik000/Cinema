@@ -1,0 +1,421 @@
+﻿<Window x:Class="Cinema.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Cinema"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+
+        mc:Ignorable="d"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:my="http://schemas.microsoft.com/netfx/2009/xaml/presentation" xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+        Title="MainWindow" Height="955.5" Width="464" WindowStartupLocation="CenterScreen" WindowStyle="None" 
+            
+        >
+    <Window.Resources>
+
+        <Style TargetType="CheckBox" x:Key="CircleCheckbox">
+            <Setter Property="Cursor" Value="Hand"></Setter>
+            <Setter Property="Content" Value=""></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <Grid>
+                            <Ellipse x:Name="outerEllipse">
+                                <Ellipse.Fill>
+                                    <SolidColorBrush  Color="LightGray"/>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <Ellipse Margin="10" x:Name="highlightCircle" >
+                                <Ellipse.Fill >
+                                    <SolidColorBrush Color="Gold" />
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <ContentPresenter x:Name="content"
+                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="outerEllipse" Property="Fill">
+                                    <Setter.Value>
+                                        <SolidColorBrush  Color="Green"/>
+    
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+
+
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="outerEllipse" Property="Fill">
+                                    <Setter.Value>
+                                        <SolidColorBrush  Color="Red"/>
+
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="IsEnabled" Value="False" />
+                                <Setter TargetName="outerEllipse" Property="Fill">
+                                    <Setter.Value>
+                                        <SolidColorBrush  Color="Red" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+
+
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="RoundCorner" TargetType="{x:Type Button}">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid x:Name="grid">
+                            <Border x:Name="border" CornerRadius="28" BorderBrush="#ec1662" BorderThickness="0">
+                                <Border.Background>
+                                    <SolidColorBrush Color="#FF0000"/>
+                                </Border.Background>
+                                <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          TextElement.FontWeight="Bold">
+                                </ContentPresenter>
+                            </Border>
+
+                        </Grid>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="FontSize" Value="100"/>
+            <Setter Property="Foreground" Value="White"  />
+            <Setter Property="Background" Value="#FF0000"  />
+            <Setter Property="Content" Value="{materialDesign:PackIcon Size=27, Kind=YoutubePlay}"  />
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition  Height="231*"/>
+            <RowDefinition Height="429*"/>
+            <RowDefinition  Height="213*"/>
+            <RowDefinition Height="52*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="10,0">
+            <Canvas Background="WhiteSmoke">
+                <Border Canvas.Left="-10" 
+                    Background="Black"
+                           Name="MovieImage" Width="456" Height="242" Canvas.Top="-11">
+                    <wpf:ChromiumWebBrowser x:Name="ChromiumBrowser" Height="242" VerticalAlignment="Bottom"/>
+                </Border>
+                <Border 
+                Grid.Row="0"
+                        Name="BorderSearch"
+                    BorderThickness="2"
+                    BorderBrush="#6CA9DA"
+                    CornerRadius="13"
+                        Background="White"
+                             Opacity="0.7"
+                             Visibility="Hidden"
+                    Padding="5" Canvas.Left="21" Canvas.Top="28" Width="346">
+                    <TextBox x:Name="MovieTextBox"
+                         BorderThickness="0"
+                         Background="White"
+                             Opacity="0.9"
+                     FontSize="22"
+                             Visibility="Hidden"
+                     Foreground="Red"
+                    ToolTip="SEARCH"
+                         Margin="3,0,3,3"/>
+                </Border>
+                <materialDesign:PackIcon Kind="Search"  ToolTip="One Click Search OPEN, Double Click For Search" Name="Search"  Width="84"
+                          Height="60" Canvas.Right="60" Foreground="White" Background="Transparent" Opacity="2"  VerticalAlignment="Top"
+                          HorizontalAlignment="Right" MouseDown="Search_MouseDown"  MouseDoubleClick="Search_MouseDoubleClick" Canvas.Left="353" Canvas.Top="24"/>
+
+                <Image Name="MovieImage2" Width="168" Height="254" Canvas.Top="142" Stretch="Fill" Canvas.Left="4" >
+                </Image>
+                <Button BorderBrush="{x:Null}" Click="Button_Click_1" Canvas.Left="59"  FontSize="100" Canvas.Top="363" Style="{StaticResource RoundCorner}" Height="43" Width="48" materialDesign:ButtonAssist.CornerRadius="20" >
+
+                </Button>
+
+                <Label Name="DirectorWodLabel" Content="Director" FontSize="10" Foreground="Black" FontWeight="SemiBold" Background="Transparent" Width="Auto" Height="Auto" Canvas.Top="400" ></Label>
+                <Label Name="DirectorLabel" Foreground="#b9b9b9"  Background="Transparent" Width="Auto" Height="Auto" Canvas.Top="400" Canvas.Left="40" />
+
+                <Label Name="WritersWordLabel" Content="Writers" Foreground="Black" FontSize="10" Background="Transparent" FontWeight="SemiBold"  Width="Auto" Height="Auto" Canvas.Top="418" ></Label>
+                <Label Name="Writers" Background="Transparent" Width="Auto" Foreground="#b9b9b9" Height="Auto" Canvas.Top="418" Canvas.Left="40" />
+
+                <TextBlock x:Name="PlotText" TextWrapping="Wrap" Foreground="#b9b9b9" FontSize="8"  Background="Transparent" Width="320" Height="56"
+                       Canvas.Top="442" Canvas.Left="0" >
+                </TextBlock>
+            </Canvas>
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="0,0,0,196" Grid.RowSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140*"/>
+                <ColumnDefinition Width="983*"/>
+            </Grid.ColumnDefinitions>
+
+            <Canvas Margin="138,10,10,10" Grid.Column="1"  >
+                <Label Name="movieNameLabel" Height="Auto" Width="Auto" Background="White" FontWeight="Bold" Foreground="Black" Canvas.Top="10" Canvas.Left="10" FontSize="22"/>
+                <Label Name="movieDescriptionLabel" Height="Auto" Width="Auto" Background="White" Foreground="LightSlateGray" Canvas.Top="60" Canvas.Left="10" FontSize="11"/>
+
+                <WrapPanel  Canvas.Top="85" Canvas.Left="10">
+                    <Label Name="movieReleasedLabel" Height="Auto" Width="Auto" Background="White" Foreground="LightSlateGray"  Margin="0,0,5,0"  FontSize="11"/>
+                    <Label Name="movieCountryLabel" Height="Auto" Width="Auto" Background="White" Foreground="LightSlateGray" Margin="5,0,5,0"  FontSize="11"/>
+                    <Label Name="movieRuntimeLabel" Height="Auto" Width="Auto" Background="White" Foreground="Black" FontWeight="Bold" Margin="5,0,5,0" FontSize="11"/>
+                </WrapPanel>
+
+                <WrapPanel  Canvas.Top="135" Canvas.Left="10" >
+                    <Label Name="movieImdbLabel" Height="Auto" FontWeight="Bold" Width="Auto" Background="White" Foreground="Black" Margin="5,0,0,0"  FontSize="11"/>
+                    <Label Content="10" FontWeight="Bold" Height="Auto" Width="Auto" Background="White" Foreground="LightSlateGray" Margin="-4,0,5,0"  FontSize="11"/>
+                    <Border 
+                    BorderThickness="0"
+                    BorderBrush="#fdc802
+"
+                        Margin="0,0,5,0"
+                    CornerRadius="13"
+                    Background="#fdc802
+"
+                    Padding="5" Width="52" Height="22">
+                        <Label x:Name="ImdbLabel"
+                         BorderThickness="0"
+                         Background="#fdc802
+"
+                         FontSize="8"
+                         FontWeight="Bold"
+                         Foreground="Black"
+                         ToolTip="IMDB"
+                         Content="  IMDB"
+                         Margin="3,-4,3,-3"/>
+                    </Border>
+                    <Border 
+                    BorderThickness="0"
+                    BorderBrush="#0b86dd
+"
+                    CornerRadius="13"
+                    Background="#0b86dd
+"
+                    Padding="5" Width="52" Height="22">
+                        <Label x:Name="pgLabel"
+                         BorderThickness="0"
+                         Background="#0b86dd"
+                         FontSize="8"
+                         FontWeight="Bold"
+                         Foreground="White"
+                         ToolTip="PG-13"
+                         Content=" PG-13"
+                         Margin="3,-4,5,-3"/>
+                    </Border>
+                    <Border 
+                        Margin="5,0,5,0"
+                    BorderThickness="0"
+                    CornerRadius="13"
+                    Background="#43b8a3"
+                    Padding="5" Width="52" Height="22">
+                        <Label x:Name="labell"
+                         BorderThickness="0"
+                         Background="#43b8a3"
+                         FontSize="8"
+                         FontWeight="Bold"
+                         Foreground="White"
+                         ToolTip="IMDB"
+                         Content=" IMDB"
+                         Margin="3,-4,5,-4"/>
+                    </Border>
+                </WrapPanel>
+
+
+                <ComboBox Name="CinemaHallLabel" Background="#f3f3f3" Height="30" VerticalAlignment="Top" Foreground="#4b4b4b"
+                       FontSize="15" FontWeight="Black" FontFamily="Times New Roman" Canvas.Left="-174" Canvas.Top="282" Width="183"   >
+                    <ComboBoxItem IsSelected="True" Content="Cavea Tibilisi Mall"></ComboBoxItem>
+                    <ComboBoxItem Content="Cinema Plus 28 May"></ComboBoxItem>
+                    <ComboBoxItem Content="Park Cinema"></ComboBoxItem>
+                    <ComboBoxItem Content="Baku Open Air Cinema"></ComboBoxItem>
+                    <ComboBoxItem Content="Nizami Cinema"></ComboBoxItem>
+                </ComboBox>
+                <ComboBox 
+                    Name="MovieLabel1" 
+                    Background="#f3f3f3" 
+                    Height="30" 
+                    VerticalAlignment="Center" 
+                    Foreground="#4b4b4b"
+                    FontSize="15"
+                    FontWeight="Bold"
+                    FontFamily="Times New Roman" 
+                    Canvas.Left="56" Canvas.Top="282" Width="183" >
+                    <ComboBoxItem IsSelected="True" Content="IMAX, 3D"></ComboBoxItem>
+                    <ComboBoxItem Content="IMAX, 2D"></ComboBoxItem>
+                    <ComboBoxItem Content="IMAX, 7D"></ComboBoxItem>
+                </ComboBox>
+
+
+                <my:DatePicker SelectedDate="{x:Static sys:DateTime.Now}"
+                Name="CalendarLabel" Background="WhiteSmoke "
+                 DisplayDateStart="{x:Static sys:DateTime.Now}"
+                 DisplayDateEnd="12/31/21"
+                Height="30" VerticalAlignment="Bottom" Foreground="#4b4b4b" 
+             FontSize="15" FontWeight="Bold" FontFamily="Times New Roman" 
+            Canvas.Left="-174" Canvas.Top="351" Width="183" 
+                 FirstDayOfWeek="Monday"></my:DatePicker>
+
+                <materialDesign:TimePicker SelectedTime="{x:Static sys:DateTime.Now}"
+                     SelectedTimeFormat="Long"
+                    Name="TimeBox" Background="WhiteSmoke " Height="30"
+                    VerticalAlignment="Bottom" Foreground="#4b4b4b" 
+                       FontSize="15" FontWeight="Bold"
+                    FontFamily="Times New Roman" Canvas.Left="56" 
+                    Canvas.Top="351" Width="183" ></materialDesign:TimePicker>
+
+
+            </Canvas>
+        </Grid>
+        <Grid Grid.Row="2" >
+            <Canvas x:Name="Canvas">
+                <!--<Label  Content="A" Canvas.Left="43" Canvas.Top="15" Width="22" />
+                <Label  Content="B" Canvas.Left="72" Canvas.Top="14" Width="20" />
+                <Label  Content="C" Canvas.Left="111" Canvas.Top="14" Width="21" />
+                <Label  Content="D" Canvas.Left="156" Canvas.Top="14" Width="22" />
+                <Label  Content="E" Canvas.Left="195" Canvas.Top="14" Width="19" />
+                <Label  Content="F" Canvas.Left="233" Canvas.Top="14" Width="20" />
+                <Label  Content="G" Canvas.Left="275" Canvas.Top="14" Width="22" />
+                <Label  Content="H" Canvas.Left="318" Canvas.Top="14" Width="23" />
+                <Label  Content="I" Canvas.Left="363" Canvas.Top="14" Width="15" />
+                <Label  Content="J" Canvas.Left="401" Canvas.Top="14" Width="16" />
+                <Label  Content="K" Canvas.Left="430" Canvas.Top="14" Width="20" />
+
+                <Label  Content="7" Canvas.Left="10" Canvas.Top="38" Width="20" />
+                <Label  Content="6" Canvas.Left="10" Canvas.Top="61" Width="20" />
+                <Label  Content="5" Canvas.Left="10" Canvas.Top="85" Width="20" />
+                <Label  Content="4" Canvas.Left="10" Canvas.Top="109" Width="20" />
+                <Label  Content="3" Canvas.Left="10" Canvas.Top="135" Width="20" />
+                <Label  Content="2" Canvas.Left="10" Canvas.Top="161" Width="20" />
+                <Label  Content="1" Canvas.Left="10" Canvas.Top="187" Width="20" />-->
+
+
+
+                <CheckBox 
+                    Grid.Row="3" Grid.Column="1"  
+                    Margin="0"  Name="A7" PreviewMouseLeftButtonDown="PriceSum"
+                          Style="{StaticResource CircleCheckbox}"  IsChecked="False" 
+                          Height="16" Width="16" Canvas.Left="43" Canvas.Top="43"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum" Margin="0" Name="A6"  IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="43" Canvas.Top="67"  />
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="A5" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="43" Canvas.Top="90"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum" Margin="0" Name="A4" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="43" Canvas.Top="114"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum" Margin="0" Name="A3" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="43" Canvas.Top="140"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum" Name="A2" Margin="0" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="43" Canvas.Top="166"/>
+
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum" Margin="0" Name="B7" IsChecked="False"  Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="71" Canvas.Top="42"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum" Margin="0" Name="B6" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="71" Canvas.Top="66"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum" Margin="0" Name="B5" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="71" Canvas.Top="89"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="B4" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="71" Canvas.Top="113"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="B3" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="71" Canvas.Top="139"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum" Margin="0" Name="B2" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="71" Canvas.Top="165"/>
+
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="C7" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="111" Canvas.Top="42"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="C6" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="111" Canvas.Top="66"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="C5" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="111" Canvas.Top="89"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="C4" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="111" Canvas.Top="113"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="C3" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="111" Canvas.Top="139"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="C2" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="111" Canvas.Top="165"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="C1" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="111" Canvas.Top="190"/>
+
+
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="D7" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="155" Canvas.Top="42"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="D6" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="155" Canvas.Top="66"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="D5" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="155" Canvas.Top="89"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="D4" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="155" Canvas.Top="113"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="D3" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="155" Canvas.Top="139"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="D2" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="155" Canvas.Top="165"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="D1" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="155" Canvas.Top="190"/>
+
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="E7" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="194" Canvas.Top="42"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="E6" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="194" Canvas.Top="66"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="E5" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="194" Canvas.Top="89"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="E4" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="194" Canvas.Top="113"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="E3" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="194" Canvas.Top="139"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="E2" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="194" Canvas.Top="165"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="E1" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="194" Canvas.Top="190"/>
+
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="F7" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="232" Canvas.Top="42"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="F6" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="232" Canvas.Top="66"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="F5" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="232" Canvas.Top="89"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="F4" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="232" Canvas.Top="113"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="F3" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="232" Canvas.Top="139"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="F2" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="232" Canvas.Top="165"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="F1" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="232" Canvas.Top="190"/>
+                                                      
+                
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="G7" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="276" Canvas.Top="42"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="G6" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="276" Canvas.Top="66"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="G5" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="276" Canvas.Top="89"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="G4" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="276" Canvas.Top="113"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="G3" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="276" Canvas.Top="139"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="G2" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="276" Canvas.Top="165"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="G1" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="276" Canvas.Top="190"/>
+                                                       
+                
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="H7" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="319" Canvas.Top="42"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="H6" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="319" Canvas.Top="66"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="H5" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="319" Canvas.Top="89"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="H4" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="319" Canvas.Top="113"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="H3" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="319" Canvas.Top="139"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="H2" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="319" Canvas.Top="165"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="H1" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="319" Canvas.Top="190"/>
+                                                       
+                
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="I7" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="362" Canvas.Top="42"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="I6" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="362" Canvas.Top="66"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="I5" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="362" Canvas.Top="89"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="I4" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="362" Canvas.Top="113"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="I3" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="362" Canvas.Top="139"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="I2" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="362" Canvas.Top="165"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="I1" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="362" Canvas.Top="190"/>
+                                                     
+                
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="J7" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="400" Canvas.Top="42"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="J6" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="400" Canvas.Top="66"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="J5" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="400" Canvas.Top="89"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="J4" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="400" Canvas.Top="113"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="J3" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="400" Canvas.Top="139"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="J2" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="400" Canvas.Top="165"/>
+                                                       
+                
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="K7" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="429" Canvas.Top="42"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="K6" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="429" Canvas.Top="66"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="K5" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="429" Canvas.Top="89"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="K4" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="429" Canvas.Top="113"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="K3" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="429" Canvas.Top="139"/>
+                <CheckBox Grid.Row="3" Grid.Column="1" PreviewMouseLeftButtonDown="PriceSum"  Margin="0" Name="K2" IsChecked="False"   Style="{StaticResource CircleCheckbox}" Height="16" Width="16" Canvas.Left="429" Canvas.Top="165"/>
+            </Canvas>
+
+
+
+        </Grid>
+
+        <Grid Grid.Row="3" >
+            <Canvas>
+                <my:Label Name="TotalLabel" Content="Total:" FontWeight="UltraBlack" Canvas.Left="10" Canvas.Top="13" >
+                </my:Label>
+
+                <my:Label Name="PriceLabel" Foreground="#4fbba7" FontSize="16" FontWeight="UltraBlack" Canvas.Left="60"  Width="Auto" Canvas.Top="13" Padding="0" 
+                          Content="0 AZN" Height="Auto" >
+                </my:Label>
+                <Button Canvas.Left="297" Click="CheckOutclck" Content="CHECKOUT"  Background="#4fbba7" Canvas.Top="10" Width="149"  >
+                    <Button.InputBindings>
+                        <MouseBinding Gesture="LeftDoubleClick" Command="{Binding MessageCommand}" ></MouseBinding>
+                    </Button.InputBindings>
+                </Button>
+            </Canvas>
+
+        </Grid>
+    </Grid>
+</Window>
